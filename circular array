@@ -1,0 +1,67 @@
+class CircularArray {
+private:
+    std::deque<int> data;
+    bool isReversed;
+public:
+    CircularArray() : isReversed(false) {}
+    CircularArray(const std::vector<int>& arr) : data(arr.begin(), arr.end()), isReversed(false) {}
+    void rotateRight() {
+        if (data.empty()) return;
+        if (!isReversed) {
+            int back = data.back();
+            data.pop_back();
+            data.push_front(back);
+        } else {
+            int front = data.front();
+            data.pop_front();
+            data.push_back(front);
+        }
+    }
+    void rotateLeft() {
+        if (data.empty()) return;
+        if (!isReversed) {
+            int front = data.front();
+            data.pop_front();
+            data.push_back(front);
+        } else {
+            int back = data.back();
+            data.pop_back();
+            data.push_front(back);
+        }
+    }
+    void reverse() {
+        isReversed = !isReversed;
+    }
+    int get(int i) const {
+        if (i < 0 || i >= size()) throw std::out_of_range("Index out of range");
+        if (!isReversed) {
+            return data[i];
+        } else {
+            return data[size() - 1 - i];
+        }
+    }
+    void set(int i, int value) {
+        if (i < 0 || i >= size()) throw std::out_of_range("Index out of range");
+        if (!isReversed) {
+            data[i] = value;
+        } else {
+            data[size() - 1 - i] = value;
+        }
+    }
+    void push_back(int value) {
+        if (!isReversed) {
+            data.push_back(value);
+        } else {
+            data.push_front(value);
+        }
+    }
+    int size() const {
+        return data.size();
+    }
+    void print() const {
+        for (int i = 0; i < size(); ++i) {
+            std::cout << get(i) << " ";
+        }
+        std::cout << std::endl;
+    }
+};
